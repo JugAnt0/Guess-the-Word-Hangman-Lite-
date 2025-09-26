@@ -1,0 +1,42 @@
+import random
+
+def guess_the_word():
+    print("🔤 Welcome to Guess the Word (Hangman Lite)!")
+
+    
+    words = ["python", "computer", "game", "hangman", "programming", "challenge"]
+    word = random.choice(words)  # Pick a random word
+    guessed = set()
+    attempts = 6  # Wrong guesses allowed
+
+  
+    while attempts > 0:
+        display = "".join([letter if letter in guessed else "_" for letter in word])
+        print("\nWord:", " ".join(display))
+        print(f"❌ Wrong guesses left: {attempts}")
+        print(f"📚 Letters guessed: {' '.join(sorted(guessed)) if guessed else 'None'}")
+
+        guess = input("Guess a letter: ").lower()
+
+        if not guess.isalpha() or len(guess) != 1:
+            print("⚠️ Please enter a single letter.")
+            continue
+        if guess in guessed:
+            print("⚠️ You already guessed that letter.")
+            continue
+
+        guessed.add(guess)
+
+        if guess in word:
+            print("✅ Good guess!")
+            if all(letter in guessed for letter in word):
+                print(f"\n🎉 You win! The word was: {word}")
+                break
+        else:
+            print("❌ Wrong guess.")
+            attempts -= 1
+    else:
+        print(f"\n💀 Game Over! The word was: {word}")
+
+
+guess_the_word()
